@@ -32,7 +32,7 @@ while True:
         with open('ListaCompras.txt', 'a') as arquivo:
             QntProd = valores["TextQnt"]
             Prod = valores["TextProduto"]
-            if QntProd and Prod:  # Verifica se os campos não estão vazios
+            if QntProd and Prod:
                 arquivo.write(QntProd + " " + Prod + "\n")
                 janela["TextQnt"].update("")
                 janela["TextProduto"].update("")
@@ -45,7 +45,7 @@ while True:
             with open('ListaCompras.txt', 'r') as arquivo:
                 linhas = arquivo.readlines()
                 linhas = [linha.strip() for linha in linhas if linha.strip()]
-                janela["ListaDeCompras"].update(linhas)  # Atualiza a chave correta
+                janela["ListaDeCompras"].update(linhas)
         except FileNotFoundError:
             janela["Aviso"].update("Arquivo de lista não encontrado.")
         except:
@@ -57,7 +57,6 @@ while True:
         janela["ListaDeCompras"].update("")
     
     if evento == "Enviar":
-        #janela["Aviso"].update("No momento esta opção está indisponivel :(")
         janela2 = sg.Window("Envio de e-mail", Layout_envio)
 
         while True:
@@ -73,19 +72,18 @@ while True:
 
                 with open('ListaCompras.txt', 'r') as arquivo:
                     lista_compras = arquivo.readlines()
-                    lista_compras = [linha.strip() for linha in lista_compras if linha.strip()]  # Remove linhas vazias
+                    lista_compras = [linha.strip() for linha in lista_compras if linha.strip()]
                     corpo_email = "<p>Lista de Compras:</p><ul>" + "".join(f"<li>{item}</li>" for item in lista_compras) + "</ul>"
 
                 msg = email.message.Message()
                 msg['Subject'] = "Lista de compras"
-                msg['From'] = 'enviodeemailteste33@gmail.com'           
+                msg['From'] = 'email@gmail.com' #email alterado
                 msg['To'] = destinatario
-                password = 'hjayluzdlseptcex' 
+                password = 'senha' #senha alterada
                 msg.add_header('Content-Type', 'text/html')
                 msg.set_payload(corpo_email )
 
                 try:
-                    # Envio do e-mail
                     s = smtplib.SMTP('smtp.gmail.com', 587)
                     s.starttls()
                     s.login(msg['From'], password)
